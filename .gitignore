@@ -1,2 +1,5 @@
 vendor/
 .idea/
+.env
+private.pem
+public.pem

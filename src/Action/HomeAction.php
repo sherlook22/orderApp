@@ -10,6 +10,5 @@ final class HomeAction
     public function __invoke(ServerRequest $request, Response $response): Response
     {
         return $response->withJson(['success' => true]);
-
     }
 }

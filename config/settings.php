@@ -1,11 +1,15 @@
 <?php
 
+//Get .env const
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
+
 // Error reporting
 error_reporting(0);
 ini_set('display_errors', '0');
 
 // Timezone
-date_default_timezone_set('Europe/Berlin');
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 // Settings
 $settings = [];
@@ -35,7 +39,7 @@ $settings['db'] = [
     'driver' => 'mysql',
     'host' => 'localhost',
     'username' => 'root',
-    'database' => 'test',
+    'database' => 'taleti',
     'password' => '',
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
@@ -51,6 +55,21 @@ $settings['db'] = [
         // Set character set
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
     ],
+];
+
+$settings['jwt'] = [
+
+    // The issuer name
+    'issuer' => getenv('APP_URL'),
+
+    // Max lifetime in seconds
+    'lifetime' => 14400,
+
+    // The private key
+    'private_key' => getenv('PRIVATE_KEY'),
+
+    'public_key' => getenv('PUBLIC_KEY'),
+    
 ];
 
 return $settings;
