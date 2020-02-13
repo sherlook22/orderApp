@@ -23,10 +23,9 @@ final class UserCreateAction
 
         // Mapping (should be done in a mapper class)
         $user = new UserCreateData();
-        $user->username = $data['username'];
-        $user->firstName = $data['first_name'];
-        $user->lastName = $data['last_name'];
         $user->email = $data['email'];
+        $user->username = $data['username'];
+        $user->password = $data['password'];
 
         // Invoke the Domain with inputs and retain the result
         $userId = $this->userCreator->createUser($user);

@@ -1,9 +1,12 @@
 {
     "require": {
         "cakephp/chronos": "^2.0",
+        "illuminate/database": "^6.14",
         "lcobucci/jwt": "^3.3",
         "php-di/php-di": "^6.0",
         "ramsey/uuid": "^3.9",
+        "respect/validation": "^1.1",
+        "selective/array-reader": "^0.3.0",
         "selective/config": "^0.1.1",
         "slim/http": "^1.0",
         "slim/psr7": "^1.0",

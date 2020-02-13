@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Container\Container as IlluminateContainer;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Connectors\ConnectionFactory;
 use App\Auth\JwtAuth;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -23,18 +26,20 @@ return [
         return $app;
     },
 
+    // Database connection
+    Connection::class => function (ContainerInterface $container) {
+        $factory = new ConnectionFactory(new IlluminateContainer());
+
+        $connection = $factory->make($container->get(Configuration::class)->getArray('db'));
+
+        // Disable the query log to prevent memory issues
+        $connection->disableQueryLog();
+
+        return $connection;
+    },
+
     PDO::class => function (ContainerInterface $container) {
-        $config = $container->get(Configuration::class);
-    
-        $host = $config->getString('db.host');
-        $dbname =  $config->getString('db.database');
-        $username = $config->getString('db.username');
-        $password = $config->getString('db.password');
-        $charset = $config->getString('db.charset');
-        $flags = $config->getArray('db.flags');
-        $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
-    
-        return new PDO($dsn, $username, $password, $flags);
+        return $container->get(Connection::class)->getPdo();
     },
 
     // Add this entry
