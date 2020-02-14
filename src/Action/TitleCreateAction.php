@@ -25,6 +25,6 @@ final class TitleCreateAction{
         
         $insert = $this->titleCreate->createTitle($title);
         
-        return $response->withJson([$insert]);
+        return $response->withJson($insert);
     }
 }

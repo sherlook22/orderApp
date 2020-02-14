@@ -4,7 +4,7 @@ namespace App\Domain\Title\Repository;
 
 use App\Domain\Title\Data\TitleCreateData;
 use Illuminate\Database\Connection;
-//use Illuminate\Database\QueryException;
+use Illuminate\Database\QueryException;
 
 
 class TitleCreateRepository
@@ -19,15 +19,25 @@ class TitleCreateRepository
     }
 
     
-    public function insertTitle(TitleCreateData $title): string
+    public function insertTitle(TitleCreateData $title)
     {
         $values = [
             'title_name' => $title->title_name
         ];
 
-        $this->connection->table('titles')->insert($values);
+        try{
+            
+            $this->connection->table('titles')->insert($values);
+            return ['title' => $title->title_name];
 
-        return (string)$title->title_name;
+        } catch(QueryException $e){
+            
+            if($e->errorInfo[1] == 1062){
+                return ['exception' => "El titulo '$title->title_name' ya existe"];
+            }
+        }
+        
+
     }
 }
 
