@@ -1,17 +1,28 @@
 <?php
 
 use Slim\App;
-use App\Models\User;
+use Slim\Routing\RouteCollectorProxy;
 
 
 return function (App $app) {
-    $app->post('/', \App\Action\TitleCreateAction::class);
     
-    $app->post('/crete', \App\Action\UserCreateAction::class);
+    $app->group('/api', function(RouteCollectorProxy $app){
+        
+        $app->group('/titles', function(RouteCollectorProxy $app){
+            $app->get('/list[/{slug}]', \App\Action\TitleListAction::class);
+            $app->post('/createtitle', \App\Action\TitleCreateAction::class);
+        });
+        
+        $app->get('/books', \App\Action\HomeAction::class);
+
+        $app->post('/crete', \App\Action\UserCreateAction::class);
     
-    $app->post('/api/tokens', \App\Action\TokenCreateAction::class);
+        $app->post('tokens', \App\Action\TokenCreateAction::class);
 
-    $app->get('/orders', \App\Action\OrderGetAllAcction::class);
+        $app->get('/orders', \App\Action\OrderGetAllAcction::class);
 
-    $app->get('/books', \App\Action\HomeAction::class);
+        
+    });
 };
+    
+    
