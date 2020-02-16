@@ -25,6 +25,12 @@ final class TitleCreateAction{
         
         $insert = $this->titleCreate->createTitle($title);
         
-        return $response->withJson($insert);
+        //Respuesta 201 create y 400 se debe cambiar peticion antes de repetir
+        
+        if (!empty($insert['exception'])) {
+            return $response->withJson($insert, 400);
+        }
+        
+        return $response->withJson($insert, 200);
     }
 }

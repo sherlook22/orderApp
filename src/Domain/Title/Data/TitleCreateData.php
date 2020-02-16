@@ -2,7 +2,7 @@
 
 namespace App\Domain\Title\Data;
 
-use Selective\ArrayReader\ArrayReader;
+use App\Components\ArrayReader;
 
 final class TitleCreateData
 {

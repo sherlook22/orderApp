@@ -21,21 +21,11 @@ final class UserCreateAction
         // Collect input from the HTTP request
         $data = (array)$request->getParsedBody();
 
-        // Mapping (should be done in a mapper class)
-        $user = new UserCreateData();
-        $user->email = $data['email'];
-        $user->username = $data['username'];
-        $user->password = $data['password'];
+        $user = new UserCreateData($data);
 
-        // Invoke the Domain with inputs and retain the result
-        $userId = $this->userCreator->createUser($user);
+        $val = $this->userCreator->createUser($user);
 
-        // Transform the result into the JSON representation
-        $result = [
-            'user_id' => $userId
-        ];
-
-        // Build the HTTP response
-        return $response->withJson($result)->withStatus(201);
+        return !$val['exception'] ? $response->withJson($val, 201) :
+                                    $response->withJson($val, 400);
     }
 }

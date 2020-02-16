@@ -4,47 +4,35 @@ namespace App\Domain\User\Service;
 
 use App\Domain\User\Data\UserCreateData;
 use App\Domain\User\Repository\UserCreatorRepository;
-use UnexpectedValueException;
+use App\Domain\User\Validator\UserValidator;
+use Respect\Validation\Validator as v;
 
-/**
- * Service.
- */
+
 final class UserCreator
 {
-    /**
-     * @var UserCreatorRepository
-     */
+
     private $repository;
 
-    /**
-     * The constructor.
-     *
-     * @param UserCreatorRepository $repository The repository
-     */
-    public function __construct(UserCreatorRepository $repository)
+    private $userValidator;
+    
+    public function __construct(UserValidator $userValidator, UserCreatorRepository $repository)
     {
         $this->repository = $repository;
+        $this->userValidator = $userValidator;
     }
-
-    /**
-     * Create a new user.
-     *
-     * @param UserCreateData $user The user data
-     *
-     * @return int The new user ID
-     */
-    public function createUser(UserCreateData $user): int
+    
+    public function createUser(UserCreateData $user)
     {
-        // Validation
-        if (empty($user->username)) {
-            throw new UnexpectedValueException('Username required');
-        }
-
-        // Insert user
-        $userId = $this->repository->insertUser($user);
-
-        // Logging here: User created successfully
-
-        return $userId;
+        $validation = $this->userValidator->validate($user,[ 
+            'numVendedor' => v::notBlank()->intType()->positive(), 
+            'password' => v::notBlank()->noWhitespace(),
+            'nombre' => v::optional(v::alpha()),
+            'apellido' => v::optional(v::alpha()),
+            'direccion' => v::optional(v::stringType()),
+            'telefono' => v::optional(v::intType()->positive()),
+            'email' => v::optional(v::email()), 
+        ]);
+        
+        return empty($validation) ? $this->repository->insertUser($user) : $validation;
     }
 }

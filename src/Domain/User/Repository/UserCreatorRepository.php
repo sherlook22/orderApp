@@ -4,6 +4,7 @@ namespace App\Domain\User\Repository;
 
 use App\Domain\User\Data\UserCreateData;
 use Illuminate\Database\Connection;
+use Illuminate\Database\QueryException;
 
 
 class UserCreatorRepository
@@ -12,23 +13,35 @@ class UserCreatorRepository
     private $connection;
 
     
-    public function __construct(PDO $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
 
     
-    public function insertUser(UserCreateData $user): int
+    public function insertUser(UserCreateData $user)
     {
-        $row = [
+        $values = [
+            'numVendedor' => $user->numVendedor,
+            'password' => password_hash($user->password, PASSWORD_DEFAULT),
+            'nombre' => $user->nombre,
+            'apellido' => $user->apellido,
+            'direccion' => $user->direccion,
+            'telefono' => $user->telefono,
             'email' => $user->email,
-            'username' => $user->username,
-            'password' => $user->password,
         ];
 
-        $newId = $this->connection->table('users')->insertGetId($values);
+        try{
+            $id = $this->connection->table('users')->insertGetId($values);
+            return $id;
 
-        return (int)$newId;
+        }catch(QueryException $e){
+
+            if($e->errorInfo[1] == 1062){
+                return ['exception' => "El usuario '$user->numVendedor' ya existe"];
+            }
+        }
+        
     }
 }
 
