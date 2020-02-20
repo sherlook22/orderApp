@@ -22,8 +22,8 @@ final class TitleCreate{
     public function createTitle(TitleCreateData $title){
 
         $validation = $this->titleValidator->validate($title, [
-            'title_name' => v::notEmpty(),
-            //'edicion' => v::numeric()->positive()->notEmpty(),
+            'title_name' => v::notBlank()->stringType(),
+            'edicion' => v::notBlank()->intType()->positive(),
         ]);
 
         if ($validation) {

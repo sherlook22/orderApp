@@ -19,8 +19,6 @@ final class TitleCreateAction{
 
     public function __invoke(ServerRequest $request, Response $response):Response{
         
-        $data = $request->getParsedBody();
-        
         $title = new TitleCreateData($request->getParsedBody());
         
         $insert = $this->titleCreate->createTitle($title);
@@ -31,6 +29,6 @@ final class TitleCreateAction{
             return $response->withJson($insert, 400);
         }
         
-        return $response->withJson($insert, 200);
+        return $response->withJson($insert, 201);
     }
 }

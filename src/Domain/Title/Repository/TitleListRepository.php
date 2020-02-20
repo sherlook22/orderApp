@@ -27,7 +27,11 @@ class TitleListRepository
     }
 
     public function getAllTitles(){
-        return $this->connection->table('titles')->select('*')->get();
+        return $this->connection->table('editions_titles')
+                                ->join('titles','editions_titles.titles_id','=','titles.id')
+                                ->join('editions','editions_titles.editions_id','=','editions.id')
+                                ->select('titles.title_name', 'editions.edition_num')
+                                ->get();
     }
 
 }

@@ -21,19 +21,27 @@ class TitleCreateRepository
     
     public function insertTitle(TitleCreateData $title)
     {
-        $values = [
-            'title_name' => $title->title_name
-        ];
-
+        
         try{
             
-            $this->connection->table('titles')->insert($values);
+            $titleID = $this->connection->table('titles')->insertGetId(
+                ['title_name' => $title->title_name]
+            );
+
+            $edicionID = $this->connection->table('editions')->insertGetId(
+                ['edition_num' => $title->edicion]
+            );
+
+            $this->connection->table('editions_titles')->insert([
+                ['editions_id' => $edicionID,'titles_id' => $titleID],
+            ]);
+
             return ['title' => $title->title_name];
 
         } catch(QueryException $e){
             
             if($e->errorInfo[1] == 1062){
-                return ['exception' => "El titulo '$title->title_name' ya existe"];
+                return ['exception' => "El titulo o edicion ya existe"];
             }
         }
         

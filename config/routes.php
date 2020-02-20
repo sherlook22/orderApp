@@ -18,14 +18,15 @@ return function (App $app) {
             $app->post('/create', \App\Action\UserCreateAction::class);
         });
         
+        $app->group('/order', function(RouteCollectorProxy $app){
+            $app->post('/create', \App\Action\OrderCreateAction::class);
+        });
+        
         $app->get('/books', \App\Action\HomeAction::class);
 
         $app->post('/crete', \App\Action\UserCreateAction::class);
     
-        $app->post('tokens', \App\Action\TokenCreateAction::class);
-
-        $app->get('/orders', \App\Action\OrderGetAllAcction::class);
-
+        $app->post('/tokens', \App\Action\TokenCreateAction::class);
         
     });
 };
