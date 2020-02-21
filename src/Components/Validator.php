@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Title\Validator;
+namespace App\Components;
 
 use Respect\Validation\Exceptions\NestedValidationException;
 
-class TitleValidator{
+class Validator{
     
     protected $errors = [];
 

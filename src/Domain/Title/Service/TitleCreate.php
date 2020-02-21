@@ -23,7 +23,6 @@ final class TitleCreate{
 
         $validation = $this->titleValidator->validate($title, [
             'title_name' => v::notBlank()->stringType(),
-            'edicion' => v::notBlank()->intType()->positive(),
         ]);
 
         if ($validation) {

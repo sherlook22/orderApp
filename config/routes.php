@@ -9,8 +9,13 @@ return function (App $app) {
     $app->group('/api', function(RouteCollectorProxy $app){
         
         $app->group('/titles', function(RouteCollectorProxy $app){
-            $app->get('/list[/{slug}]', \App\Action\TitleListAction::class);
             $app->post('/create', \App\Action\TitleCreateAction::class);
+            $app->get('/list[/{name}]', \App\Action\TitleListAction::class);
+            $app->post('/assigned', \App\Action\TitleAssignEditionAction::class);
+        });
+        
+        $app->group('/edition', function(RouteCollectorProxy $app){
+            $app->post('/create', \App\Action\EditionCreateAction::class);
         });
         
         $app->group('/user', function(RouteCollectorProxy $app){

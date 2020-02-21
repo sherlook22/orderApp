@@ -20,7 +20,13 @@ final class TitleListAction{
         
         $titles = $this->titleListData->listTitle($args);
         
-        return $response->withJson($titles, 200);
+    
+        if(!$titles->isEmpty()){
+
+            return $response->withJson($titles, 200);
+        }
+        
+        return $response->withJson(['exception' => 'No se encontro ningun titulo'], 400);
         
     }
         

@@ -20,17 +20,18 @@ class TitleListRepository
     
     public function getTitle(array $args){
                    
-            return $this->connection->table('titles')
-                                    ->where('title_name','LIKE', '%' . $args['slug'] . '%' )
+            return $this->connection->table('editions_titles')
+                                    ->join('titles','editions_titles.titles_id','=','titles.id')
+                                    ->join('editions','editions_titles.editions_id','=','editions.id')
+                                    ->select('title_name','edition_num')
+                                    ->where('title_name', $args['name'])
                                     ->get();
         
     }
 
     public function getAllTitles(){
-        return $this->connection->table('editions_titles')
-                                ->join('titles','editions_titles.titles_id','=','titles.id')
-                                ->join('editions','editions_titles.editions_id','=','editions.id')
-                                ->select('titles.title_name', 'editions.edition_num')
+        return $this->connection->table('titles')
+                                ->select('title_name')
                                 ->get();
     }
 
