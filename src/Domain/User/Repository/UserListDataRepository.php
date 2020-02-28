@@ -16,15 +16,17 @@ final class UserListDataRepository{
 
     public function getAllUsers(){
 
-        return $this->connection->table('users')->select('*')->get();
+        return $this->connection->table('users')
+                                ->select('numVendedor','nombre','apellido','direccion','email')
+                                ->get();
     }
 
     public function getUser($args){
 
-        return $this->connection->table('users')->where('numVendedor','LIKE', '%'.$args['vendedor'].'%')
-                                                ->orwhere('nombre','LIKE', '%'.$args['vendedor'].'%')
-                                                ->orwhere('apellido','LIKE', '%'.$args['vendedor'].'%')
-                                                ->get();
+        return $this->connection->table('users')
+                                ->select('numVendedor','nombre','apellido','direccion','email')
+                                ->where('numVendedor', $args['vendedor'])
+                                ->get();
 
     }
 }

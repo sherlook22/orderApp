@@ -5,6 +5,7 @@ namespace App\Action;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use App\Components\UserDecode;
+use App\Domain\Order\Data\OrderCreateData;
 use App\Domain\Order\Service\OrderCreate;
 
 final class OrderCreateAction{
@@ -22,10 +23,17 @@ final class OrderCreateAction{
 
     public function __invoke(ServerRequest $request, Response $response){
 
-        $numVendedor = 401;//$this->userDecode->getSeller($request);
+        $user = 401;//$this->userDecode->getSeller($request);
 
+        $data = new OrderCreateData($request->getParsedBody());
 
+        $send = $this->orderCreate->createOrder($user,$data); #ver como enviar estos datos luego!!
 
-        return $response->withJson($numVendedor);
+        if (!$send['exception']) {
+            return $response->withJson($send, 201);
+        }
+
+        return $response->withJson($send, 400);
+
     }
 }

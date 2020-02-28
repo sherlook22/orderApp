@@ -7,10 +7,14 @@ use App\Components\ArrayReader;
 
 final class OrderCreateData{
 
-    //Integer
-    private $titleId;
-    //Integer
-    private $cantPedida;
-    
+    //Array
+    public $pedido;
+
+    public function __construct(array $array = []){
+
+        $data = new ArrayReader($array);
+
+        $this->pedido = $data->findArray('pedido');
+    }
 
 }

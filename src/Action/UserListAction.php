@@ -22,7 +22,12 @@ final class UserListAction{
 
         $vend = $this->userListData->listUser($args);
 
-        return $response->withJson($vend, 200);
+        if(!$vend->isEmpty()){
+            
+            return $response->withJson($vend, 200);
+        }
+
+        return $response->withJson(['exception' => 'vendedor no encontrado'], 400);
 
     }
 
