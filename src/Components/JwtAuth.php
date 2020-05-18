@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth;
+namespace App\Components;
 
 use Cake\Chronos\Chronos;
 use InvalidArgumentException;

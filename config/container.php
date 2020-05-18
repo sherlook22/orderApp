@@ -3,7 +3,7 @@
 use Illuminate\Container\Container as IlluminateContainer;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\ConnectionFactory;
-use App\Auth\JwtAuth;
+use App\Components\JwtAuth;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Selective\Config\Configuration;

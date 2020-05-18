@@ -7,6 +7,8 @@ return function (App $app) {
     // Parse json, form data and xml
     $app->addBodyParsingMiddleware();
 
+    $app->add(\App\Middleware\CorsMiddleware::class);
+
     // Add routing middleware
     $app->addRoutingMiddleware();
 

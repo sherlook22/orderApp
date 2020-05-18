@@ -3,7 +3,6 @@
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
-
 return function (App $app) {
     
     $app->group('/api', function(RouteCollectorProxy $app){
@@ -12,7 +11,7 @@ return function (App $app) {
             $app->post('/create', \App\Action\TitleCreateAction::class);
             $app->get('/list[/{name}]', \App\Action\TitleListAction::class);
             $app->post('/assigned', \App\Action\TitleAssignEditionAction::class);
-        });
+        })->add(\App\Middleware\JwtMiddleware::class);
         
         $app->group('/edition', function(RouteCollectorProxy $app){
             $app->post('/create', \App\Action\EditionCreateAction::class);
@@ -21,7 +20,8 @@ return function (App $app) {
         $app->group('/user', function(RouteCollectorProxy $app){
             $app->get('/list[/{vendedor}]', \App\Action\UserListAction::class);
             $app->post('/create', \App\Action\UserCreateAction::class);
-        });
+            $app->options('/create', \App\Action\PreflightAction::class);
+        })/* ->add(\App\Middleware\JwtMiddleware::class) */;
         
         $app->group('/order', function(RouteCollectorProxy $app){
             $app->post('/create', \App\Action\OrderCreateAction::class);
@@ -31,8 +31,9 @@ return function (App $app) {
 
         $app->post('/crete', \App\Action\UserCreateAction::class);
     
-        $app->post('/tokens', \App\Action\TokenCreateAction::class);
-        
+        $app->post('/token', \App\Action\UserValidator::class)/* ->add(JwtMiddleware::class) */;
+        $app->options('/token', \App\Action\PreflightAction::class);
+                
     });
 };
     

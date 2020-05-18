@@ -42,8 +42,17 @@ final class OrderCreateRepository{
             }
         }catch(QueryException $e) {
             
-            if($e->errorInfo[1] == 1062){
-                return ['exception' => "Titulo duplicado en el pedido"];
+            if($e){
+
+                $idPedido = $this->connection->table('orders')
+                                             ->where('id', $idPedido)
+                                             ->delete();
+                                             
+                $this->connection->table('orders_titles')
+                                 ->where('orders_id', $idPedido)
+                                 ->delete();
+
+                return ['exception' => "Error al generar pedido"];
             }
         }
 
