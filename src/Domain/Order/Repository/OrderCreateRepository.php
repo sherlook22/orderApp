@@ -16,11 +16,11 @@ final class OrderCreateRepository{
         $this->connection = $connection;
     }
 
-    public function insertOrder($user, OrderCreateData $data){
+    public function insertOrder(OrderCreateData $data){
 
         try {
             $idUser = $this->connection->table('users')
-                                   ->where('numVendedor', $user)
+                                   ->where('numVendedor', $data->vendedor)
                                    ->select('id')
                                    ->first();
 
@@ -35,7 +35,7 @@ final class OrderCreateRepository{
                 $this->connection->table('orders_titles')
                              ->insert([
                                  'orders_id' => $idPedido,
-                                 'titles_id' => $data->pedido[$i]['id'],
+                                 'titles_id' => $data->pedido[$i]['titulo'],
                                  'edition' => $data->pedido[$i]['edicion'],
                                  'cant_pedida'=> $data->pedido[$i]['cantidad']
                              ]);

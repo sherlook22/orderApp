@@ -14,26 +14,24 @@ final class OrderCreateAction{
 
     private $orderCreate;
 
-    public function __construct(UserDecode $userDecode, OrderCreate $orderCreate){
+    public function __construct(/* UserDecode $userDecode */OrderCreate $orderCreate){
 
-        $this->userDecode = $userDecode;
+        //$this->userDecode = $userDecode;
         $this->orderCreate = $orderCreate;
 
     }
 
     public function __invoke(ServerRequest $request, Response $response){
 
-        $user = 401;//$this->userDecode->getSeller($request);
-
         $data = new OrderCreateData($request->getParsedBody());
 
-        $send = $this->orderCreate->createOrder($user,$data); #ver como enviar estos datos luego!!
+        $send = $this->orderCreate->createOrder($data); #ver como enviar estos datos luego!!
 
         if (!$send['exception']) {
             return $response->withJson($send, 201);
-        }
+        } 
 
-        return $response->withJson($send, 400);
+        return $response->withJson($data, 400);
 
     }
 }

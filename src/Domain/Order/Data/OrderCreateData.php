@@ -7,14 +7,16 @@ use App\Components\ArrayReader;
 
 final class OrderCreateData{
 
-    //Array
+    public $vendedor;
+
     public $pedido;
 
     public function __construct(array $array = []){
 
         $data = new ArrayReader($array);
 
-        $this->pedido = $data->findArray('pedido');
+        $this->vendedor = $data->findString('vendedor');
+        $this->pedido = $data->findArray('pedidos');
     }
 
 }

@@ -15,9 +15,9 @@ final class OrderCreate{
         $this->repository = $repository;
     }
 
-    public function createOrder($user, OrderCreateData $data){
+    public function createOrder(OrderCreateData $data){
         
-        return $this->repository->insertOrder($user, $data);
+        return $this->repository->insertOrder($data);
 
     }
 }

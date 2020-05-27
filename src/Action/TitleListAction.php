@@ -26,6 +26,7 @@ final class TitleListAction{
             return $response->withJson($titles, 200);
         }
         
+
         return $response->withJson(['exception' => 'No se encontro ningun titulo'], 400);
         
     }

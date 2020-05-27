@@ -46,7 +46,8 @@ final class UserValidator
             'access_token' => $token,
             'token_type' => 'Bearer',
             'expires_in' => $lifetime,
-            'menu' => $menu, //traer el menu del navbar segun el rol de usuario
+            'menu' => $menu,
+            'vendedor' => $user->numVendedor
         ]; 
 
         // Build the HTTP response
