@@ -20,12 +20,24 @@ final class TitleAssignEditionRepository
     {
         try {
 
+            $ed = $this->connection->table('editions')
+                       ->where('edition_num', $assignament->numEd)
+                       ->select('id')
+                       ->first();
+
+            if(empty($ed)) {
+                $ed = $this->connection->table('editions')
+                           ->insertGetId(['edition_num' => $assignament->numEd]);
+            }else {
+                $ed = $ed->id;
+            }
+
             $this->connection->table('editions_titles')->insert(
-                ['editions_id' => $assignament->editionID,
+                ['editions_id' => $ed,
                  'titles_id' => $assignament->titleID]
             );
 
-            return ['title' => $assignament->titleID, 'edicion' => $assignament->editionID];
+            return ['title' => $assignament->titleID, 'edicion' => $assignament->numEd];
 
         } catch (QueryException $e) {
             

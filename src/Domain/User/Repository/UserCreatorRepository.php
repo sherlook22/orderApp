@@ -29,6 +29,7 @@ class UserCreatorRepository
             'direccion' => $user->direccion,
             'telefono' => $user->telefono,
             'email' => $user->email,
+            'is_staff' => $user->rol,
         ];
 
         try{

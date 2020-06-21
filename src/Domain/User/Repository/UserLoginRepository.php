@@ -32,15 +32,27 @@ class UserLoginRepository
         
         if ($role == '0') {
 
-            return $menu = $this->connection->table('menu')
-                                ->select('nombre', 'url')
-                                ->where('role', $role)
-                                ->get();
+            $menu = $this->connection->table('menu')
+                                ->join('submenu', 'submenu.id_menu', '=', 'menu.id')
+                                ->where('rol', $role)
+                                ->select('menu.grupo', 'submenu.nombre', 'submenu.url')
+                                ->get()
+                                ->groupBy('grupo');
+                                
+            return $menu;
+     
+
 
         } elseif($role == '1') {
-            return $menu = $this->connection->table('menu')
-                                ->select('nombre', 'url')
-                                ->get();
+            $menu = $this->connection->table('menu')
+                                ->join('submenu', 'submenu.id_menu', '=', 'menu.id')
+                                ->where('rol', $role)
+                                ->select('menu.grupo', 'submenu.nombre', 'submenu.url')
+                                ->get()
+                                ->groupBy('grupo');
+
+            return $menu;                                
+                                            
         }else{
             return;
         }

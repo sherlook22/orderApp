@@ -8,15 +8,14 @@ use App\Components\UserDecode;
 use App\Domain\Order\Data\OrderCreateData;
 use App\Domain\Order\Service\OrderCreate;
 
-final class OrderCreateAction{
 
-    private $userDecode;
+
+final class OrderCreateAction{
 
     private $orderCreate;
 
-    public function __construct(/* UserDecode $userDecode */OrderCreate $orderCreate){
+    public function __construct(OrderCreate $orderCreate){
 
-        //$this->userDecode = $userDecode;
         $this->orderCreate = $orderCreate;
 
     }
@@ -27,11 +26,13 @@ final class OrderCreateAction{
 
         $send = $this->orderCreate->createOrder($data); #ver como enviar estos datos luego!!
 
-        if (!$send['exception']) {
-            return $response->withJson($send, 201);
+        if ($send['exception']) {
+            
+            return $response->withJson("Error al crear pedido, titulos repetidos", 400);
+            
         } 
-
-        return $response->withJson($data, 400);
+        
+        return $response->withJson($send, 201);
 
     }
 }

@@ -19,13 +19,13 @@ final class UserCreateAction
     public function __invoke(ServerRequest $request, Response $response): Response
     {
         // Collect input from the HTTP request
-        $data = (array)$request->getParsedBody();
+        $data = $request->getParsedBody();
 
         $user = new UserCreateData($data);
 
         $val = $this->userCreator->createUser($user);
 
-        return !$val['exception'] ? $response->withJson($val, 201) :
+        return !$val['exception'] ? $response->withJson("Usuario agregado con exito", 201) :
                                     $response->withJson($val, 400);
     }
 }

@@ -8,13 +8,13 @@ final class TitleAssignEditionData{
 
     public $titleID;
 
-    public $editionID;
+    public $numEd;
 
     public function __construct(array $array = []){
 
         $data = new ArrayReader($array);
 
         $this->titleID = $data->findInt('title_id');
-        $this->editionID = $data->findInt('edition_id');
+        $this->numEd = $data->findInt('num_ed');
     }
 }

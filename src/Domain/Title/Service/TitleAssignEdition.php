@@ -23,7 +23,7 @@ final class TitleAssignEdition{
 
         $validation = $this->validator->validate($assignament, [
             'titleID' => v::notBlank()->intType()->positive(),
-            'editionID' => v::notBlank()->intType()->positive(),
+            'numEd' => v::notBlank()->intType()->positive(),
         ]);
 
         return $validation ? $validation : $this->repository->addEdition($assignament);

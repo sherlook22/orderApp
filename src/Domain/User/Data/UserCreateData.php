@@ -20,6 +20,8 @@ final class UserCreateData
     public $telefono;
     //String
     public $email;
+    //Int
+    public $rol;
     
     public function __construct(array $array = []){
 
@@ -32,6 +34,7 @@ final class UserCreateData
         $this->direccion = $data->findString('direccion');
         $this->telefono = $data->findInt('telefono');
         $this->email = $data->findString('email');
+        $this->rol = $data->findString('rol');
     }
 
 }

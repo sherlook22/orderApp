@@ -4,6 +4,7 @@ use Illuminate\Container\Container as IlluminateContainer;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\ConnectionFactory;
 use App\Components\JwtAuth;
+use PHPMailer\PHPMailer\PHPMailer;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Selective\Config\Configuration;
@@ -58,5 +59,26 @@ return [
 
         return new JwtAuth($issuer, $lifetime, $privateKey, $publicKey);
     },
+
+    PHPMailer::class => function (ContainerInterface $container) {
+        $mail = new PHPMailer(true);
+
+        //Server settings
+        $mail->SMTPDebug  = 0;                      
+        $mail->isSMTP();                                
+        $mail->Host       = 'smtp.gmail.com';             
+        $mail->SMTPAuth   = true;                                  
+        $mail->Username   = 'gonzalore01@gmail.com  ';       
+        $mail->Password   = '258g456rew1';                 
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
+        $mail->Port       = 587;                                    
+
+        //Recipients
+        $mail->setFrom('gonzalore@gmail.com', 'Gonzalo');
+        $mail->addAddress('re.gonzalo@yahoo.com.ar');
+        $mail->isHTML(true);
+
+        return $mail;
+    }
 
 ];
